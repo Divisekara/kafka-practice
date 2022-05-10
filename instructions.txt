@@ -1,0 +1,11 @@
+1. create the folder workspace
+3. Change the GOPATH envioronment variable to 
+2. Create a folder called src inside that
+3. Inside the src folder create another folder called whatever name (say "main")
+4. Inside src/main folder create a go file for coding (sat "app.go")
+5. Initialize the go.mod file using the follwing command
+    go mod init app
+6. Write whatever code you need 
+7. Install the third party libraries from github
+    example - go get github.com/Shopify/sarama
+8. Inside the 
