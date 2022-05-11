@@ -85,3 +85,8 @@ If you produce new message then it will show it under the terminal of consumer-c
 
 -offset flag has a default value of 'newest' and we can set it to 'oldest' then we can access the older values produced to the broker 
 
+you can specify the partitions as well default is 'all'
+
+16. Now we can move to the coding examples of producer and consumer 
+   sarama provides two producing mechanisms which are
+   Asynchronous, synchronous
