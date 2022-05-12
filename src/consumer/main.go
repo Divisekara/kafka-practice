@@ -14,7 +14,15 @@ func main() {
 	c, err := sarama.NewConsumer(brokers, cfg)
 	handlErr(err)
 
-	pc, err := c.ConsumePartition("user-test", 0,sarama.offsetOldest)
+	pc, err := c.ConsumePartition("user-test", 0, sarama.OffsetOldest)
+	handlErr(err)
+
+	for true {
+		select {
+		case msg := <-pc.Messages():
+			log.Printf("key: [%v], value: [%v], offset: [%v]", msg.Key, msg.Value, msg.Offset)
+		}
+	}
 
 }
 
