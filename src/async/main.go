@@ -15,7 +15,7 @@ func main() {
 	cfg.Producer.Return.Successes = true
 	cfg.Producer.Partitioner = sarama.NewRandomPartitioner
 
-	prod, err := sarama.NewSyncProducer(brokers, cfg)
+	prod, err := sarama.NewAsyncProducer(brokers, cfg)
 	handleErr(err)
 
 	msg := sarama.ProducerMessage{
@@ -34,9 +34,32 @@ func main() {
 		// Timestamp: time.Time{},
 	}
 
-	part, offset, err := prod.SendMessage(&msg)
-	handleErr(err)
-	fmt.Printf("partition: [%v], offset: [%v] \n", part, offset)
+	msgs := make([]sarama.ProducerMessage, 0)
+	for i := 0; i < 100; i++ {
+		msg.Key = sarama.StringEncoder(fmt.Sprintf("%v", time.Now().Unix()))
+		msgs = append(msgs, msg)
+	}
+
+	done := make(chan struct{})
+
+	go func() {
+		for i := 0; i < 100; i++ {
+			select {
+			case <-prod.Successes():
+			case err := <-prod.Errors():
+				log.Println(err)
+			}
+		}
+		done <- struct{}{}
+	}()
+
+	for _, m := range msgs {
+		prod.Input() <- &m
+	}
+
+	<-done
+	close(done)
+	fmt.Println("done!")
 }
 
 func handleErr(err error) {
