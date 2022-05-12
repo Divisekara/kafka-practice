@@ -26,6 +26,7 @@ above both docker commands require the same IP which can be found using the ifco
 4. Inside the src folder create another folder called whatever name (say "main")
 
 5. Inside src/main folder create a go file for coding (sat "app.go")
+inorder to run the go file you need to naviagate inside the src/main folder since then it will detect the mod file and can find the installed external third party libraries.
 
 6. Initialize the go.mod file using the follwing command
    go mod init app
