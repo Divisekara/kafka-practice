@@ -34,6 +34,7 @@ func main() {
 		// Timestamp: time.Time{},
 	}
 
+	// partition of the broker can be different time to time
 	part, offset, err := prod.SendMessage(&msg)
 	handleErr(err)
 	fmt.Printf("partition: [%v], offset: [%v] \n", part, offset)

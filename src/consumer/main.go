@@ -14,13 +14,15 @@ func main() {
 	c, err := sarama.NewConsumer(brokers, cfg)
 	handlErr(err)
 
+	// only listen to the partition 0
+	// there is a drawback here since we need to know the exact partition to listen
 	pc, err := c.ConsumePartition("user-test", 0, sarama.OffsetOldest)
 	handlErr(err)
 
 	for true {
 		select {
 		case msg := <-pc.Messages():
-			log.Printf("key: [%v], value: [%v], offset: [%v]", msg.Key, msg.Value, msg.Offset)
+			log.Printf("key: [%v], value: [%v], offset: [%v]", string(msg.Key), string(msg.Value), msg.Offset)
 		}
 	}
 
