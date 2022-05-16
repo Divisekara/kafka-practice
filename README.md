@@ -4,7 +4,8 @@ find the ip address of the  machine using the following command
 ifconfig
 under the virbr0 you can find the ip address
 
-To run the kafka-zookeeper run the following code
+To run the kafka-zookeeper run the following code 
+
 sudo docker run -p 2181:2181 -p 9092:9092 -e ADVERTISED_HOST=192.168.122.1  -e NUM_PARTITIONS=4 johnnypark/kafka-zookeeper
 
 To run the UI tool for the kafka
